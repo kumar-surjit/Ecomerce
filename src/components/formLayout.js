@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  ImageBackground,
-  Pressable,
-} from 'react-native';
+import {Text, View, StyleSheet, ImageBackground, Pressable} from 'react-native';
 import imagePath from '../../imagePath';
-import { LinearGradient } from 'expo-linear-gradient';
+import {LinearGradient} from 'expo-linear-gradient';
 
 export default function FormLayout(props) {
   return (

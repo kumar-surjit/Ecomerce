@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
+import imagePath from '../../../imagePath';
 
 export default class Cart extends Component {
   state = {
@@ -33,7 +34,7 @@ export default class Cart extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.route.params);
+    // console.log(this.props.route.params);
   }
 
   _renderItem = ({item}) => (
@@ -73,24 +74,126 @@ export default class Cart extends Component {
       </View>
     </View>
   );
+  getMRP = () => {
+    if (this.props.route.params !== undefined) {
+      let result = 0;
+      for (let i = 0; i < this.props.route.params.cartProducts.length; i++) {
+        let currentValue = this.props.route.params.cartProducts[
+          i
+        ].product.price.replace(',', '');
+        result += Number(currentValue);
+      }
+      return result;
+    } else return 0;
+  };
+
+  getDiscount = () => {
+    if (this.props.route.params !== undefined) {
+      let result = 0;
+      for (let i = 0; i < this.props.route.params.cartProducts.length; i++) {
+        let currentValue =
+          this.props.route.params.cartProducts[i].product.price.replace(
+            ',',
+            '',
+          ) -
+          this.props.route.params.cartProducts[
+            i
+          ].product.discountedPrice.replace(',', '');
+        result += Number(currentValue);
+      }
+      return result;
+    } else return 0;
+  };
+
+  getTotal = () => {
+    if (this.props.route.params !== undefined) {
+      let result = 0;
+      for (let i = 0; i < this.props.route.params.cartProducts.length; i++) {
+        let currentValue = this.props.route.params.cartProducts[
+          i
+        ].product.discountedPrice.replace(',', '');
+        result += Number(currentValue);
+      }
+      return result;
+    } else return 0;
+  };
 
   render() {
     const {product} = this.state;
-    return (
-      <View
-        style={{
-          backgroundColor: '#dfdfe2',
-          flex: 1,
-          paddingHorizontal: 8,
-          paddingVertical: 16,
-        }}>
-        <FlatList
-          data={this.props.route.params.cartProducts}
-          renderItem={this._renderItem}
-          keyExtractor={(item) => String(item.product.id)}
-        />
-      </View>
-    );
+    if (this.props.route.params.cartProducts.length === 0) {
+      return (
+        <View
+          style={{flex: 0.8, alignItems: 'center', justifyContent: 'center'}}>
+          <Image source={imagePath.ic_empty_cart} />
+          <Text style={{fontWeight: 'bold', marginTop: 8, fontSize: 20}}>
+            Hey, it feels so light!
+          </Text>
+          <Text style={{color: '#999BA3', marginTop: 8}}>
+            There is nothing in your bag. Let's add some items.
+          </Text>
+        </View>
+      );
+    } else
+      return (
+        <View
+          style={{
+            backgroundColor: '#dfdfe2',
+            flex: 1,
+            paddingTop: 16,
+          }}>
+          <FlatList
+            data={this.props.route.params.cartProducts}
+            renderItem={this._renderItem}
+            keyExtractor={(item) => String(item.product.id)}
+            style={{paddingHorizontal: 8, marginBottom: 10}}
+          />
+          <View
+            style={{
+              backgroundColor: '#fff',
+              paddingVertical: 12,
+              paddingHorizontal: 16,
+            }}>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                borderBottomColor: 'gray',
+                borderBottomWidth: 1,
+                paddingBottom: 5,
+              }}>
+              PRICE DETAILS
+            </Text>
+            <View style={styles.priceDetailsStyle}>
+              <Text>Total MRP</Text>
+              <Text>₹{this.getMRP()}</Text>
+            </View>
+            <View
+              style={[
+                styles.priceDetailsStyle,
+                {borderBottomWidth: 1, borderBottomColor: 'gray'},
+              ]}>
+              <Text>Total Discount</Text>
+              <Text>₹{this.getDiscount()}</Text>
+            </View>
+            <View style={styles.priceDetailsStyle}>
+              <Text style={{fontWeight: 'bold'}}>Total Amount</Text>
+              <Text style={{fontWeight: 'bold'}}>₹{this.getTotal()}</Text>
+            </View>
+            <View style={{marginTop: 4}}>
+              <TouchableOpacity
+                style={{
+                  paddingHorizontal: 8,
+                  paddingVertical: 12,
+                  backgroundColor: '#FF406C',
+                  borderRadius: 4,
+                }}>
+                <Text style={{color: '#fff', textAlign: 'center'}}>
+                  PLACE ORDER
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      );
   }
 }
 
@@ -131,5 +234,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#FF4D77',
     fontWeight: 'bold',
+  },
+  priceDetailsStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 5,
   },
 });
