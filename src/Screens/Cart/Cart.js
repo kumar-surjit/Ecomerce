@@ -8,6 +8,8 @@ import {
   FlatList,
 } from 'react-native';
 import imagePath from '../../../imagePath';
+import TrackingModal from '../../components/TrackingModal';
+import navigationStrings from '../../constants/navigationStrings';
 
 export default class Cart extends Component {
   state = {
@@ -31,11 +33,9 @@ export default class Cart extends Component {
         description: 'Men White Urban Athleisure Shoes',
       },
     ],
+    visibleState: false,
+    displayState: 'none',
   };
-
-  componentDidMount() {
-    // console.log(this.props.route.params);
-  }
 
   _renderItem = ({item}) => (
     <View style={styles.itemContainer}>
@@ -118,8 +118,21 @@ export default class Cart extends Component {
     } else return 0;
   };
 
+  placeOrderClicked = () => {
+    const {visibleState, displayState} = this.state;
+    console.log('hello');
+    this.setState({
+      visibleState: true,
+      displayState: 'flex',
+    });
+  };
+
+  trackingModalCloseButtonPressed = () => {
+    this.props.navigation.navigate(navigationStrings.Home, {addedToBag: -1});
+  };
+
   render() {
-    const {product} = this.state;
+    const {product, visibleState, displayState} = this.state;
     if (this.props.route.params.cartProducts.length === 0) {
       return (
         <View
@@ -146,6 +159,11 @@ export default class Cart extends Component {
             renderItem={this._renderItem}
             keyExtractor={(item) => String(item.product.id)}
             style={{paddingHorizontal: 8, marginBottom: 10}}
+          />
+          <TrackingModal
+            visibility={visibleState}
+            display={displayState}
+            closeFunc={this.trackingModalCloseButtonPressed}
           />
           <View
             style={{
@@ -185,7 +203,8 @@ export default class Cart extends Component {
                   paddingVertical: 12,
                   backgroundColor: '#FF406C',
                   borderRadius: 4,
-                }}>
+                }}
+                onPress={this.placeOrderClicked}>
                 <Text style={{color: '#fff', textAlign: 'center'}}>
                   PLACE ORDER
                 </Text>

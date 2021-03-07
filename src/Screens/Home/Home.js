@@ -145,10 +145,17 @@ export default class Home extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.route);
+    // console.log(this.props.route);
+
     this.focusListener = this.props.navigation.addListener('focus', () => {
+      console.log(this.props.route.params);
       if (this.props.route.params !== undefined) {
-        if (this.props.route.params.addedToBag != null) {
+        if (this.props.route.params.addedToBag === -1) {
+          this.setState({
+            itemsInCart: 0,
+            cartItems: [],
+          });
+        } else if (this.props.route.params.addedToBag != null) {
           const {itemsInCart, cartItems} = this.state;
           let newProduct = this.props.route.params.product;
           let result = cartItems.findIndex(
@@ -178,8 +185,9 @@ export default class Home extends Component {
           this.props.route.params.addedToBag = null;
           // console.log(this.props);
         }
+        // console.log('not undefined', this.props.route.params);
       }
-      // console.log(this.props);
+      console.log(this.props.route.params);
       // console.log('focused');
     });
   }
