@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import imagePath from '../../../imagePath';
+import colors from '../../styles/colors';
 
 export default class Home extends Component {
   state = {
@@ -193,6 +194,7 @@ export default class Home extends Component {
   }
 
   componentWillUnmount() {
+    alert('hello');
     this.focusListener();
     // console.log('willunmount');
   }
@@ -236,7 +238,11 @@ export default class Home extends Component {
           style={styles.coverImgStyle}>
           <View style={styles.ratingContianer}>
             <Text style={styles.ratingText}>{item.rating}</Text>
-            <MaterialCommunityIcons name="star" size={10} color="#77C2BA" />
+            <MaterialCommunityIcons
+              name="star"
+              size={10}
+              color={colors.themeGreen}
+            />
           </View>
         </ImageBackground>
         <View style={styles.productDetailStyle}>
@@ -373,10 +379,10 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   headingStyle: {
-    fontWeight: 'bold',
     fontSize: 20,
     paddingHorizontal: 20,
     paddingVertical: 10,
+    fontFamily: 'LucyRounded-Bold',
   },
   coverImgStyle: {
     height: 250,
@@ -410,7 +416,7 @@ const styles = StyleSheet.create({
     color: '#919296',
   },
   discountStyle: {
-    color: '#e56f2e',
+    color: colors.themeOrange,
   },
   productDetailStyle: {
     paddingLeft: 10,

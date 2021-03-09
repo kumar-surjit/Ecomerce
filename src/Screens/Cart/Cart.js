@@ -10,6 +10,7 @@ import {
 import imagePath from '../../../imagePath';
 import TrackingModal from '../../components/TrackingModal';
 import navigationStrings from '../../constants/navigationStrings';
+import colors from '../../styles/colors';
 
 export default class Cart extends Component {
   state = {
@@ -119,11 +120,18 @@ export default class Cart extends Component {
   };
 
   placeOrderClicked = () => {
-    const {visibleState, displayState} = this.state;
-    console.log('hello');
-    this.setState({
-      visibleState: true,
-      displayState: 'flex',
+    // const {visibleState, displayState} = this.state;
+    // console.log('hello');
+    // this.setState({
+    //   visibleState: true,
+    //   displayState: 'flex',
+    // });
+    let pricing = {};
+    pricing.mrp = this.getMRP();
+    pricing.discount = this.getDiscount();
+    pricing.total = this.getTotal();
+    this.props.navigation.replace(navigationStrings.OrderConfirm, {
+      data: pricing,
     });
   };
 
@@ -201,7 +209,7 @@ export default class Cart extends Component {
                 style={{
                   paddingHorizontal: 8,
                   paddingVertical: 12,
-                  backgroundColor: '#FF406C',
+                  backgroundColor: colors.themePinkColor,
                   borderRadius: 4,
                 }}
                 onPress={this.placeOrderClicked}>
@@ -251,7 +259,7 @@ const styles = StyleSheet.create({
   },
   buttonRightStyle: {
     textAlign: 'center',
-    color: '#FF4D77',
+    color: colors.themeLightPink,
     fontWeight: 'bold',
   },
   priceDetailsStyle: {

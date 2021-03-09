@@ -6,4 +6,5 @@ export default {
   ic_camera: require('./src/assets/images/camera.png'),
   ic_gallery: require('./src/assets/images/gallery.png'),
   ic_empty_cart: require('./src/assets/images/empty.jpg'),
+  ic_confirm: require('./src/assets/images/confirm.png'),
 };

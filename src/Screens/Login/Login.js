@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet, ScrollView} from 'react-native';
-import FormLayout from '../../components/formLayout';
-import Input from '../../components/input';
+import FormLayout from '../../components/FormLayout';
+import Input from '../../components/Input';
 import FormButton from '../../components/FormButton';
 import navigationStrings from '../../constants/navigationStrings';
 import {showMessage} from 'react-native-flash-message';

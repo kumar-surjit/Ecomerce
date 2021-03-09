@@ -7,4 +7,5 @@ export default {
   Profile: 'Profile',
   ProductDetails: 'ProductDetails',
   Cart: 'Cart',
+  OrderConfirm: 'OrderConfirm',
 };

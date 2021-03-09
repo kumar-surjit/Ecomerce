@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {TextInput, StyleSheet, View, Text} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {showMessage, hideMessage} from 'react-native-flash-message';
 
 export default function Input(props) {
   const [isValid, setValidity] = useState(false);

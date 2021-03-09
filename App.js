@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import Input from './src/components/input';
-import Routes from './src/navigation/Routes';
+import {View} from 'react-native';
 import MainStack from './src/navigation/MainStack';
 import FlashMessage from 'react-native-flash-message';
 

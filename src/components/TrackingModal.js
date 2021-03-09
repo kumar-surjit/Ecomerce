@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
 import {
-  Alert,
   Modal,
   StyleSheet,
   Text,
-  Pressable,
   View,
   Linking,
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import navigationStrings from '../constants/navigationStrings';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import openMap from 'react-native-open-maps';
+import Share from 'react-native-share';
+import {showMessage} from 'react-native-flash-message';
+import colors from '../styles/colors';
 
 export function dialCall(phoneNumber) {
   if (Platform.OS === 'android') {
@@ -29,6 +31,24 @@ export function openEmail(email) {
 export default class TrackingModal extends Component {
   state = {
     modalVisible: false,
+  };
+
+  shareDetails = () => {
+    Share.open({
+      title: 'Share',
+      message:
+        'Tracking Details - \nPhone no: +919056167932 \nEmail: surjit9464@gmail.com',
+    })
+      .then((res) => {
+        console.log('here', res);
+        showMessage({
+          message: 'Successfully shared!',
+          type: 'success',
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   setModalVisible = (visible) => {
@@ -55,7 +75,19 @@ export default class TrackingModal extends Component {
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Order Placed!</Text>
               <View style={{marginBottom: 15}}>
-                <Text style={styles.textHeadingSpacing}>Tracking Details:</Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}>
+                  <Text style={styles.textHeadingSpacing}>
+                    Tracking Details:
+                  </Text>
+                  <TouchableOpacity onPress={this.shareDetails}>
+                    <MaterialCommunityIcons name="share" size={20} />
+                  </TouchableOpacity>
+                </View>
 
                 <View style={styles.textSpacing}>
                   <Text>Phone No: </Text>
@@ -74,12 +106,42 @@ export default class TrackingModal extends Component {
                     <Text>surjit9464@gmail.com</Text>
                   </TouchableOpacity>
                 </View>
+                <TouchableOpacity
+                  onPress={() =>
+                    openMap({
+                      end: 'Elante Mall, Industrial Area Phase I, Chandigarh',
+                    })
+                  }
+                  style={[
+                    styles.textSpacing,
+                    {
+                      backgroundColor: colors.themePinkColor,
+                      paddingHorizontal: 12,
+                      paddingVertical: 8,
+                      marginTop: 8,
+                      justifyContent: 'center',
+                      borderRadius: 20,
+                    },
+                  ]}>
+                  <Text style={[styles.modalText, {color: '#fff'}]}>
+                    Track Your Package
+                  </Text>
+                </TouchableOpacity>
               </View>
-              <Pressable
+              <TouchableOpacity
+                style={{alignSelf: 'center'}}
+                onPress={this.closeButtonPressed}>
+                <MaterialCommunityIcons
+                  name="close-circle"
+                  size={30}
+                  color={'gray'}
+                />
+              </TouchableOpacity>
+              {/* <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={this.closeButtonPressed}>
                 <Text style={styles.textStyle}>Close</Text>
-              </Pressable>
+              </Pressable> */}
             </View>
           </View>
         </Modal>
@@ -126,7 +188,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   modalText: {
-    marginBottom: 15,
     textAlign: 'center',
     fontWeight: 'bold',
   },
@@ -134,7 +195,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   textSpacing: {
-    paddingVertical: 2,
+    paddingVertical: 4,
     flexDirection: 'row',
   },
 });

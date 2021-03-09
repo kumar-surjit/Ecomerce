@@ -1,6 +1,8 @@
 package com.myntraclone;
 
 // com.myapp should be your package name
+import cl.json.RNSharePackage;
+import cl.json.ShareApplication;
 import com.myntraclone.generated.BasePackageList;
 import android.app.Application;
 import android.content.Context;

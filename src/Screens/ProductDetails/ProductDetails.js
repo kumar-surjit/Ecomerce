@@ -10,6 +10,7 @@ import {
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import navigationStrings from '../../constants/navigationStrings';
 import Carousel from 'react-native-snap-carousel';
+import colors from '../../styles/colors';
 
 export default class ProductDetails extends Component {
   state = {
@@ -179,7 +180,7 @@ export default class ProductDetails extends Component {
           <TouchableOpacity
             style={[
               styles.buttonContainer,
-              {backgroundColor: '#FF406C', marginRight: 15},
+              {backgroundColor: colors.themePinkColor, marginRight: 15},
             ]}
             onPress={() => {
               this.props.navigation.navigate(navigationStrings.Home, {
