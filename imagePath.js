@@ -7,4 +7,5 @@ export default {
   ic_gallery: require('./src/assets/images/gallery.png'),
   ic_empty_cart: require('./src/assets/images/empty.jpg'),
   ic_confirm: require('./src/assets/images/confirm.png'),
+  ic_gmail: require('./src/assets/images/gmail.png'),
 };

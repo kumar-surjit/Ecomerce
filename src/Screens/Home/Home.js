@@ -194,7 +194,7 @@ export default class Home extends Component {
   }
 
   componentWillUnmount() {
-    alert('hello');
+    // alert('hello');
     this.focusListener();
     // console.log('willunmount');
   }

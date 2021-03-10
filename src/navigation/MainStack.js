@@ -40,7 +40,7 @@ export default function MainStack() {
           name={navigationStrings.OrderConfirm}
           component={OrderConfirm}
           options={{
-            headerShown: true,
+            headerShown: false,
             title: 'Order Placed',
             headerTitleStyle: {left: -18, fontSize: 17},
           }}
