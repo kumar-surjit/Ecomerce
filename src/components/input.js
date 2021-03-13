@@ -20,17 +20,21 @@ export default function Input(props) {
     if (regex.test(value)) {
       console.log('Valid');
       if (props.type === 'email') {
-        props.updateState('email', true);
+        props.updateState('email', true, value);
+        // props.updateState('emailInput', value);
       } else if (props.type === 'password') {
-        props.updateState('password', true);
+        props.updateState('password', true, value);
+        // props.updateState('passwordInput', value);
       }
       setValidity(true);
     } else {
       console.log('Not Valid');
       if (props.type === 'email') {
-        props.updateState('email', false);
+        props.updateState('email', false, value);
+        // props.updateState('emailInput', value);
       } else if (props.type === 'password') {
-        props.updateState('password', false);
+        props.updateState('password', false, value);
+        // props.updateState('passwordInput', value);
       }
       setValidity(false);
     }
@@ -41,11 +45,13 @@ export default function Input(props) {
     let regex = new RegExp(props.pattern);
     if (regex.test(value)) {
       console.log('Valid Name');
-      props.updateState('name', true);
+      props.updateState('name', true, value);
+      // props.updateState('nameInput', value);
       setValidity(true);
     } else {
       console.log('Not Valid Name');
-      props.updateState('name', false);
+      props.updateState('name', false, value);
+      // props.updateState('nameInput', value);
       setValidity(false);
     }
   };

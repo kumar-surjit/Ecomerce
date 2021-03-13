@@ -12,11 +12,11 @@ export default function MainStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen
+        <Stack.Screen
           name={navigationStrings.Auth}
           component={Routes}
           options={{headerShown: false}}
-        /> */}
+        />
         <Stack.Screen
           name={navigationStrings.HomeTab}
           component={HomeTab}

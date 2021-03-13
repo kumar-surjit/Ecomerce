@@ -5,35 +5,80 @@ import Input from '../../components/Input';
 import FormButton from '../../components/FormButton';
 import navigationStrings from '../../constants/navigationStrings';
 import {showMessage} from 'react-native-flash-message';
+import {registerUser} from '../../apis/registerUser';
 
 export default class Signup extends Component {
   state = {
     isEmailValid: false,
     isPasswordValid: false,
     isNameValid: false,
+    email: '',
+    password: '',
+    name: '',
   };
 
-  changeState = (stateVar, newValue) => {
-    if (stateVar === 'email') {
-      this.setState({
-        isEmailValid: newValue,
-      });
-    } else if (stateVar === 'password') {
-      this.setState({
-        isPasswordValid: newValue,
-      });
-    } else if (stateVar === 'name') {
-      this.setState({
-        isNameValid: newValue,
-      });
+  changeState = (stateVar, isValid, newValue) => {
+    console.log('inside changeState', stateVar === 'name');
+    switch (stateVar) {
+      case 'email':
+        console.log('this is newValue:', newValue);
+        this.setState({
+          isEmailValid: isValid,
+          email: newValue,
+        });
+        break;
+      case 'password':
+        console.log('this is newValue:', newValue);
+        this.setState({
+          isPasswordValid: isValid,
+          password: newValue,
+        });
+        break;
+      case 'name':
+        console.log('this is newValue:', newValue);
+        this.setState({
+          isNameValid: isValid,
+          name: newValue,
+        });
+        break;
+      // case stateVar === 'nameInput':
+      //   this.setState({
+
+      //   });
+      //   break;
+      // case stateVar === 'emailInput':
+      //   this.setState({
+
+      //   });
+      //   break;
+      // case stateVar === 'passwordInput':
+      //   this.setState({
+
+      //   });
+      //   break;
     }
   };
 
   checkValidity = () => {
-    const {isEmailValid, isPasswordValid, isNameValid} = this.state;
+    const {
+      isEmailValid,
+      isPasswordValid,
+      isNameValid,
+      email,
+      password,
+      name,
+    } = this.state;
+    console.log(email, password, name);
+    let data = {
+      email: email,
+      languageCode: 'EN',
+      signupType: 'APP',
+      password: password,
+      name: name,
+    };
     if (isEmailValid && isPasswordValid && isNameValid) {
+      this.signUpUser(data);
       console.log('Valid');
-      this.props.navigation.navigate(navigationStrings.HomeTab);
     } else {
       showMessage({
         message: 'Invalid Details',
@@ -44,10 +89,29 @@ export default class Signup extends Component {
     }
   };
 
+  signUpUser = (value) => {
+    console.log('inside signup user');
+    registerUser(value)
+      .then((res) => {
+        console.log('response', res);
+        showMessage({
+          type: 'success',
+          message: 'Successfully Signed in',
+        });
+        this.props.navigation.navigate(navigationStrings.HomeTab);
+      })
+      .catch((err) => {
+        console.log('error', err);
+        showMessage({
+          type: 'danger',
+          message: "Couldn't Signed in",
+        });
+      });
+  };
+
   render() {
-    {
-      console.log(this.props.navigation);
-    }
+    // console.log(this.props.navigation);
+
     return (
       <ScrollView style={{flex: 1}}>
         <View style={{paddingVertical: 30}}>
