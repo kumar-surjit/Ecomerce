@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {TextInput, StyleSheet, View, Text} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 export default function Input(props) {
@@ -57,6 +58,10 @@ export default function Input(props) {
   };
 
   const textHandlerForLogin = (value) => {
+    if (value === '') {
+      setEmptyState(true);
+      return;
+    } else setEmptyState(false);
     if (props.type === 'email') {
       if (value === 'admin@code-brew.com') props.changeEmailValidation(true);
       else props.changeEmailValidation(false);
@@ -78,6 +83,34 @@ export default function Input(props) {
             else if (props.tabName === 'login') textHandlerForLogin(value);
           }}
         />
+        {(() => {
+          if (props.type === 'password' && !isEmpty) {
+            if (props.secureText)
+              return (
+                <FontAwesome5
+                  name="eye-slash"
+                  size={15}
+                  color="gray"
+                  style={styles.eyeStyle}
+                  onPress={() =>
+                    props.updateState('secureState', true, 'hello')
+                  }
+                />
+              );
+            else
+              return (
+                <FontAwesome5
+                  name="eye"
+                  size={15}
+                  color="gray"
+                  style={styles.eyeStyle}
+                  onPress={() =>
+                    props.updateState('secureState', true, 'hello')
+                  }
+                />
+              );
+          }
+        })()}
 
         {(() => {
           if (
@@ -134,5 +167,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 10,
     paddingTop: 8,
+  },
+  eyeStyle: {
+    position: 'absolute',
+    right: 30,
+    paddingTop: 8,
+    paddingHorizontal: 5,
   },
 });

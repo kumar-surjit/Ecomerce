@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet, ScrollView} from 'react-native';
+import {StackActions} from '@react-navigation/native';
 import FormLayout from '../../components/FormLayout';
 import Input from '../../components/Input';
 import FormButton from '../../components/FormButton';
@@ -10,6 +11,7 @@ export default class Login extends Component {
   state = {
     emailValidation: false,
     passwordValidation: false,
+    isSecure: true,
   };
 
   changeEmailValidation = (newValue) => {
@@ -24,11 +26,24 @@ export default class Login extends Component {
     });
   };
 
+  changeState = (stateVar, isValid, newValue) => {
+    switch (stateVar) {
+      case 'secureState':
+        // console.log("i'm heere");
+        this.setState({
+          isSecure: !this.state.isSecure,
+        });
+        break;
+    }
+  };
+
   checkValidUser = () => {
     const {emailValidation, passwordValidation} = this.state;
     if (emailValidation && passwordValidation) {
       console.log('Valid');
-      this.props.navigation.navigate(navigationStrings.HomeTab);
+      this.props.navigation.dispatch(
+        StackActions.replace(navigationStrings.HomeTab),
+      );
     } else {
       showMessage({
         message: 'Invalid Credentials',
@@ -40,6 +55,7 @@ export default class Login extends Component {
   };
 
   render() {
+    const {isSecure} = this.state;
     return (
       <ScrollView style={{flex: 1}}>
         <View style={styles.headingContainer}>
@@ -59,10 +75,11 @@ export default class Login extends Component {
           />
           <Text style={[styles.labelStyle, {marginTop: 10}]}> Password :</Text>
           <Input
-            secureText={true}
+            secureText={isSecure}
             tabName="login"
             changePasswordValidation={this.changePasswordValidation}
             type="password"
+            updateState={this.changeState}
           />
         </View>
         <View style={{marginBottom: 20}}>

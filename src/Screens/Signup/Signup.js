@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet, ScrollView} from 'react-native';
+import {StackActions} from '@react-navigation/native';
 import FormLayout from '../../components/FormLayout';
 import Input from '../../components/Input';
 import FormButton from '../../components/FormButton';
@@ -15,6 +16,7 @@ export default class Signup extends Component {
     email: '',
     password: '',
     name: '',
+    isSecure: true,
   };
 
   changeState = (stateVar, isValid, newValue) => {
@@ -41,21 +43,11 @@ export default class Signup extends Component {
           name: newValue,
         });
         break;
-      // case stateVar === 'nameInput':
-      //   this.setState({
-
-      //   });
-      //   break;
-      // case stateVar === 'emailInput':
-      //   this.setState({
-
-      //   });
-      //   break;
-      // case stateVar === 'passwordInput':
-      //   this.setState({
-
-      //   });
-      //   break;
+      case 'secureState':
+        this.setState({
+          isSecure: !this.state.isSecure,
+        });
+        break;
     }
   };
 
@@ -98,7 +90,9 @@ export default class Signup extends Component {
           type: 'success',
           message: 'Successfully Signed in',
         });
-        this.props.navigation.navigate(navigationStrings.HomeTab);
+        this.props.navigation.dispatch(
+          StackActions.replace(navigationStrings.HomeTab),
+        );
       })
       .catch((err) => {
         console.log('error', err);
@@ -111,7 +105,7 @@ export default class Signup extends Component {
 
   render() {
     // console.log(this.props.navigation);
-
+    const {isSecure} = this.state;
     return (
       <ScrollView style={{flex: 1}}>
         <View style={{paddingVertical: 30}}>
@@ -140,7 +134,7 @@ export default class Signup extends Component {
           />
           <Text style={[styles.labelStyle, {marginTop: 10}]}> Password :</Text>
           <Input
-            secureText={true}
+            secureText={isSecure}
             pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"
             type="password"
             tabName="signup"
